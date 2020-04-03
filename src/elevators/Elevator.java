@@ -1,11 +1,11 @@
-package cecs277.elevators;
+package elevators;
 
 import cecs277.Simulation;
-import cecs277.buildings.Building;
-import cecs277.buildings.Floor;
-import cecs277.buildings.FloorObserver;
-import cecs277.events.ElevatorStateEvent;
-import cecs277.passengers.Passenger;
+import buildings.Building;
+import buildings.Floor;
+import buildings.FloorObserver;
+import events.ElevatorStateEvent;
+import passengers.Passenger;
 
 import java.util.*;
 import java.util.stream.Collectors;

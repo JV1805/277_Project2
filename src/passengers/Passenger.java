@@ -1,9 +1,9 @@
-package cecs277.passengers;
+package passengers;
 
-import cecs277.buildings.Floor;
-import cecs277.buildings.FloorObserver;
-import cecs277.elevators.Elevator;
-import cecs277.elevators.ElevatorObserver;
+import buildings.Floor;
+import buildings.FloorObserver;
+import elevators.Elevator;
+import elevators.ElevatorObserver;
 
 /**
  * A passenger that is either waiting on a floor or riding an elevator.

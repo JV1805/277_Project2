@@ -1,8 +1,8 @@
-package cecs277.events;
+package events;
 
 import cecs277.Simulation;
-import cecs277.buildings.Floor;
-import cecs277.passengers.Passenger;
+import buildings.Floor;
+import passengers.Passenger;
 
 /**
  * A simulation event that adds an existing passenger to a given floor, as if they have finished with their

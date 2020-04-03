@@ -1,7 +1,7 @@
-package cecs277.events;
+package events;
 
 import cecs277.Simulation;
-import cecs277.elevators.Elevator;
+import elevators.Elevator;
 
 /**
  * A simulation event that sets an elevator's state and calls its tick() method.

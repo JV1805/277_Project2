@@ -1,9 +1,8 @@
-package cecs277.buildings;
+package buildings;
 
-import cecs277.passengers.Passenger;
 import cecs277.Simulation;
-import cecs277.elevators.Elevator;
-import cecs277.elevators.ElevatorObserver;
+import elevators.Elevator;
+import elevators.ElevatorObserver;
 
 import java.util.*;
 

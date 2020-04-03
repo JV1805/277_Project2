@@ -1,8 +1,6 @@
-package cecs277.passengers;
+package passengers;
 
-import cecs277.Simulation;
-import cecs277.elevators.Elevator;
-import cecs277.events.PassengerNextDestinationEvent;
+import elevators.Elevator;
 
 /**
  * A VisitorPassenger has a single destination and a single duration (in seconds), which is how long the Visitor

@@ -1,4 +1,4 @@
-package cecs277.elevators;
+package elevators;
 
 public interface ElevatorObserver {
 	/**

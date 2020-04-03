@@ -1,8 +1,8 @@
 package cecs277;
 
-import cecs277.buildings.Building;
-import cecs277.events.SimulationEvent;
-import cecs277.events.SpawnPassengerEvent;
+import buildings.Building;
+import events.SimulationEvent;
+import events.SpawnPassengerEvent;
 
 import java.util.PriorityQueue;
 import java.util.Random;

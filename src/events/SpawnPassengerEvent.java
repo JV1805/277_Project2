@@ -1,17 +1,10 @@
-package cecs277.events;
+package events;
 
-import cecs277.buildings.Building;
-import cecs277.passengers.Passenger;
+import buildings.Building;
+import passengers.Passenger;
 import cecs277.Simulation;
-import cecs277.passengers.VisitorPassenger;
-import cecs277.passengers.WorkerPassenger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * A simulation event that adds a new random passenger on floor 1, and then schedules the next spawn event.

@@ -1,7 +1,6 @@
-package cecs277.buildings;
+package buildings;
 
-import cecs277.buildings.Floor;
-import cecs277.elevators.Elevator;
+import elevators.Elevator;
 
 public interface FloorObserver {
 	/**

@@ -1,4 +1,4 @@
-package cecs277.events;
+package events;
 
 import cecs277.Simulation;
 
