@@ -10,23 +10,29 @@ import elevators.Elevator;
  */
 public class VisitorPassenger extends Passenger {
 	// TODO: add fields, constructors, and accessors to implement this class.
-	
+
+	private int destination;
+	private int duration;
+
 	public VisitorPassenger(int destinationFloor, int durationTime) {
 		super();
-		// TODO: change this constructor's  body.
+		this.destination = destinationFloor;
+		this.duration = durationTime;
 	}
 	
 	@Override
 	public int getDestination() {
-		// TODO: finish this method to return the visitor's destination, which changes to floor 1 when they
-		// "reappear".
-		return -1;
+		return this.destination;
 	}
 	
 	// TODO: implement this template method variant. A Visitor will join an elevator whose passenger count is less than its capacity.
 	@Override
 	protected boolean willBoardElevator(Elevator elevator) {
-		return false;
+		boolean boarding = false;
+		if (elevator.getPassengerCount() < elevator.getCapacity()){
+			boarding = true;
+		}
+		return boarding;
 	}
 	
 	/*
