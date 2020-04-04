@@ -10,6 +10,7 @@ import elevators.Elevator;
  */
 public class VisitorPassenger extends Passenger {
 	// TODO: add fields, constructors, and accessors to implement this class.
+    // [DONE]
 
 	private int destination;
 	private int duration;
@@ -26,7 +27,8 @@ public class VisitorPassenger extends Passenger {
 	}
 	
 	// TODO: implement this template method variant. A Visitor will join an elevator whose passenger count is less than its capacity.
-	@Override
+    // [DONE]
+    @Override
 	protected boolean willBoardElevator(Elevator elevator) {
 		boolean boarding = false;
 		if (elevator.getPassengerCount() < elevator.getCapacity()){
