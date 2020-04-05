@@ -1,6 +1,8 @@
 package passengers;
 
 import elevators.Elevator;
+import cecs277.Simulation;
+import events.PassengerNextDestinationEvent;
 
 /**
  * A VisitorPassenger has a single destination and a single duration (in seconds), which is how long the Visitor
@@ -43,16 +45,28 @@ public class VisitorPassenger extends Passenger {
 	 A visitor that is departing on any other floor sets their new destination to floor 1, and then schedules a
 	 PassengerNextDestinationEvent to occur when they are supposed to "reappear" (their duration field).
 	*/
+	// [ATTEMPTED]
 	@Override
 	protected void leavingElevator(Elevator elevator) {
+		if (elevator.getCurrentFloor().getNumber() == 1){
+			System.out.println("Passenger left on Floor 1");
+		}
+		else {
+			this.destination = 1;
+			Simulation s = elevator.getBuilding().getSimulation();
+			PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + 10,
+					this,	elevator.getCurrentFloor());
+			s.scheduleEvent(ev);
+
 		/* Example of how to schedule a PassengerNextDestinationEvent:
 		Simulation s = elevator.getBuilding().getSimulation();
 		PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + 10, this,
 		 elevator.getCurrentFloor());
 		s.scheduleEvent(ev);
-		
+
 		Schedules this passenger to reappear on this floor 10 seconds from now.
 		 */
+		}
 	}
 	
 	// TODO: return "Visitor heading to floor {destination}", replacing {destination} with the floor number.
