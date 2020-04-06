@@ -3,6 +3,7 @@ package events;
 import buildings.Building;
 import passengers.Passenger;
 import cecs277.Simulation;
+import passengers.VisitorPassenger;
 
 import java.util.Random;
 
@@ -45,6 +46,13 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		 with a scheduled time that is X seconds in the future, where X is a uniform random integer from
 		 1 to 30 inclusive.
 		*/
+		//[ATTEMPTED]
+		int futureAppearance = r.nextInt(30) + 1;
+
+		Simulation s = this.mBuilding.getSimulation();
+		SpawnPassengerEvent ev = new SpawnPassengerEvent(s.currentTime() + futureAppearance, mBuilding);
+		s.scheduleEvent(ev);
+
 	}
 	
 	
@@ -55,10 +63,21 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		 The visitor's visit duration should follow a NORMAL (GAUSSIAN) DISTRIBUTION with a mean of 1 hour
 		 and a standard deviation of 20 minutes.
 		 */
+
 		Random r = mBuilding.getSimulation().getRandom();
+		int floorCount = this.mBuilding.getFloorCount();
+
+		//subtract 1 from floor count to get range [0, floorcount - 2 ]
+		//add 2 so range is [2, floorcount]
+		int visitorDestination = r.nextInt(this.mBuilding.getFloorCount() - 1) + 2;
+
+			double visitorDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
+
+		VisitorPassenger visitor = new VisitorPassenger(visitorDestination, (int) Math.round(visitorDuration));
+
 		// Look up the documentation for the .nextGaussian() method of the Random class.
-		
-		return null;
+
+		return visitor;
 	}
 	
 	private Passenger getWorker() {
