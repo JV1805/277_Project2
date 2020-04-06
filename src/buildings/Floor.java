@@ -14,7 +14,11 @@ public class Floor implements ElevatorObserver {
 	
 	// TODO: declare a field(s) to help keep track of which direction buttons are currently pressed.
 	// You can assume that every floor has both up and down buttons, even the ground and top floors.
-	
+	//[DONE]
+
+	private boolean mUpButton;
+	private boolean mDownButton;
+
 	public Floor(int number, Building building) {
 		mNumber = number;
 		mBuilding = building;
@@ -28,6 +32,16 @@ public class Floor implements ElevatorObserver {
 	 */
 	public void requestDirection(Elevator.Direction direction) {
 		// TODO: implement this method as described in the comment.
+		//[DONE]
+		if (direction.equals(Elevator.Direction.MOVING_UP)){
+			mUpButton = true;
+		}
+		else if (direction.equals(Elevator.Direction.MOVING_DOWN)){
+			mDownButton = true;
+		}
+		for (FloorObserver fObserver: mObservers){
+			fObserver.directionRequested(this, direction);
+		}
 	}
 	
 	/**
@@ -35,7 +49,15 @@ public class Floor implements ElevatorObserver {
 	 */
 	public boolean directionIsPressed(Elevator.Direction direction) {
 		// TODO: complete this method.
-		return false;
+		//[DONE]
+		boolean directionPressed = false;
+		if (direction.equals(Elevator.Direction.MOVING_UP) && mUpButton){
+			directionPressed = mUpButton;
+		}
+		else if (direction.equals(Elevator.Direction.MOVING_DOWN) && mDownButton){
+			directionPressed = mDownButton;
+		}
+		return directionPressed;
 	}
 	
 	/**
@@ -43,6 +65,13 @@ public class Floor implements ElevatorObserver {
 	 */
 	public void clearDirection(Elevator.Direction direction) {
 		// TODO: complete this method.
+		//[DONE]
+		if (direction.equals(Elevator.Direction.MOVING_DOWN) && directionIsPressed(Elevator.Direction.MOVING_DOWN)){
+			mDownButton = false;
+		}
+		else if (direction.equals(Elevator.Direction.MOVING_UP) && directionIsPressed(Elevator.Direction.MOVING_UP)){
+			mUpButton = false;
+		}
 	}
 	
 	/**
@@ -54,6 +83,18 @@ public class Floor implements ElevatorObserver {
 		p.setState(Passenger.PassengerState.WAITING_ON_FLOOR);
 		
 		// TODO: call requestDirection with the appropriate direction for this passenger's destination.
+		//[DONE]
+
+		Elevator.Direction direction = Elevator.Direction.NOT_MOVING;
+
+		if (p.getDestination() > this.mNumber){
+			direction = Elevator.Direction.MOVING_UP;
+		}
+		else if (p.getDestination() < this.mNumber){
+			direction = Elevator.Direction.MOVING_DOWN;
+		}
+
+		requestDirection(direction);
 	}
 	
 	/**
