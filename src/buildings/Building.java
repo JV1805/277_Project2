@@ -35,7 +35,49 @@ public class Building implements ElevatorObserver, FloorObserver {
 	
 
 	// TODO: recreate your toString() here.
-	
+	//[DONE]
+
+	public String toString(){
+
+		String returnString = "";
+
+		for (int f = 0; f < this.getFloorCount(); f++){
+			String temp = "";
+			//padding for the string
+			String biggestDigit = "" + this.getFloorCount();
+			String padding = "" + f + 1;
+			while (padding.length() < biggestDigit.length()){
+				temp += " ";
+				padding += " ";
+			}
+
+			//constructing the string
+			if (this.getFloorCount() - f < 10){
+				temp += " " + (this.getFloorCount() - f) + ": ";
+			}
+			else{
+				temp += this.getFloorCount() - f + ": ";
+			}
+
+			for (Elevator elevator : this.mElevators){
+				if (this.getFloorCount() - f == elevator.getCurrentFloor().getNumber()){
+					temp += "| X ";
+				}
+				else{
+					temp += "|   ";
+				}
+			}
+			//getting waiting passengers
+			String floorString = this.getFloor(this.getFloorCount()-1-f).toString().replace(",", " ");
+			temp += "| " + floorString.substring(1, floorString.length()-1);
+			returnString += temp + "\n";
+		}
+		for (Elevator elevator : this.mElevators){
+			returnString += elevator.toString() + "\n";
+		}
+
+		return returnString;
+	}
 	
 	public int getFloorCount() {
 		return mFloors.size();
