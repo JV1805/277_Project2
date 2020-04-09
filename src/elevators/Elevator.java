@@ -40,6 +40,8 @@ public class Elevator implements FloorObserver {
 	private List<ElevatorObserver> mObservers = new ArrayList<>();
 	
 	// TODO: declare a field to keep track of which floors have been requested by passengers.
+	// [DONE]
+	private boolean[] mRequestedFloors = new boolean[mBuilding.getFloorCount()];
 	
 	
 	public Elevator(int number, Building bld) {
@@ -63,7 +65,10 @@ public class Elevator implements FloorObserver {
 	 */
 	public void addPassenger(Passenger passenger) {
 		// TODO: add the passenger's destination to the set of requested floors.
+		// Might not be right, to my understanding all i have to do is get the floor destination and mark it as true in the array, if so then
+		// [DONE]
 		mPassengers.add(passenger);
+		mRequestedFloors[passenger.getDestination() - 1] = true;
 	}
 	
 	public void removePassenger(Passenger passenger) {
@@ -80,6 +85,7 @@ public class Elevator implements FloorObserver {
 		
 		// Example of how to trigger a state change:
 		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
+		
 	}
 	
 	
