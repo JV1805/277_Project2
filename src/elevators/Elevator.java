@@ -42,13 +42,13 @@ public class Elevator implements FloorObserver {
 	// TODO: declare a field to keep track of which floors have been requested by passengers.
 	// [DONE]
 
-	//private boolean[] mRequestedFloors = new boolean[mBuilding.getFloorCount()];
-    private ArrayList<Floor> wantedFloors= new ArrayList<>();
+	private boolean[] mRequestedFloors;
 
 	public Elevator(int number, Building bld) {
 		mNumber = number;
 		mBuilding = bld;
 		mCurrentFloor = bld.getFloor(1);
+		mRequestedFloors = new boolean[mBuilding.getFloorCount()];
 		scheduleStateChange(ElevatorState.IDLE_STATE, 0);
 	}
 	
@@ -69,8 +69,7 @@ public class Elevator implements FloorObserver {
         // in the array, if so then
 		// [DONE]
         mPassengers.add(passenger);
-		//mRequestedFloors[passenger.getDestination()-1] =true;
-        wantedFloors.add(this.getBuilding().getFloor(passenger.getDestination()));
+		mRequestedFloors[passenger.getDestination()-1] =true;
 	}
 	
 	public void removePassenger(Passenger passenger) {
