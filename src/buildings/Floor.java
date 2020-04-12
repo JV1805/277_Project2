@@ -16,8 +16,8 @@ public class Floor implements ElevatorObserver {
 	// You can assume that every floor has both up and down buttons, even the ground and top floors.
 	//[DONE]
 
-	private boolean mUpButton;
-	private boolean mDownButton;
+	public boolean mUpButton;
+	public boolean mDownButton;
 
 	public Floor(int number, Building building) {
 		mNumber = number;

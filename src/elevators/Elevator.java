@@ -41,14 +41,14 @@ public class Elevator implements FloorObserver {
 	
 	// TODO: declare a field to keep track of which floors have been requested by passengers.
 	// [DONE]
-	private boolean[] mRequestedFloors = new boolean[mBuilding.getFloorCount()];
-	
-	
+
+	//private boolean[] mRequestedFloors = new boolean[mBuilding.getFloorCount()];
+    private ArrayList<Floor> wantedFloors= new ArrayList<>();
+
 	public Elevator(int number, Building bld) {
 		mNumber = number;
 		mBuilding = bld;
 		mCurrentFloor = bld.getFloor(1);
-		
 		scheduleStateChange(ElevatorState.IDLE_STATE, 0);
 	}
 	
@@ -65,10 +65,12 @@ public class Elevator implements FloorObserver {
 	 */
 	public void addPassenger(Passenger passenger) {
 		// TODO: add the passenger's destination to the set of requested floors.
-		// Might not be right, to my understanding all i have to do is get the floor destination and mark it as true in the array, if so then
+		// Might not be right, to my understanding all i have to do is get the floor destination and mark it as true
+        // in the array, if so then
 		// [DONE]
-		mPassengers.add(passenger);
-		mRequestedFloors[passenger.getDestination() - 1] = true;
+        mPassengers.add(passenger);
+		//mRequestedFloors[passenger.getDestination()-1] =true;
+        wantedFloors.add(this.getBuilding().getFloor(passenger.getDestination()));
 	}
 	
 	public void removePassenger(Passenger passenger) {
@@ -82,7 +84,34 @@ public class Elevator implements FloorObserver {
 	public void tick() {
 		// TODO: port the logic of your state changes from Project 1, accounting for the adjustments in the spec.
 		// TODO: State changes are no longer immediate; they are scheduled using scheduleStateChange().
-		
+
+      /*  if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
+            this.getCurrentFloor().addObserver(this);
+            for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorWentIdle(this);
+            }
+        } */
+        if (this.mCurrentState.equals(ElevatorState.DOORS_OPENING)) {
+            scheduleStateChange(ElevatorState.DOORS_OPEN, 2);
+        }
+
+        else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
+            int initialElevatorCount = this.mPassengers.size();
+            int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
+
+            for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorDoorsOpened(this);
+            }
+            int endElevatorCount = this.mPassengers.size();
+            int endFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
+
+            int totalEntered = initialFloorCount - endFloorCount;
+            int totalLeft = (initialElevatorCount + totalEntered) - endElevatorCount;
+            int totalChange = (int) Math.floor((totalEntered + totalLeft)/2);
+
+            scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChange);
+        }
+
 		// Example of how to trigger a state change:
 		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
 		
@@ -124,7 +153,7 @@ public class Elevator implements FloorObserver {
 	public int getCapacity() {
 		return 10;
 	}
-	
+
 	public int getPassengerCount() {
 		return mPassengers.size();
 	}
@@ -163,8 +192,22 @@ public class Elevator implements FloorObserver {
 	 */
 	@Override
 	public void directionRequested(Floor sender, Direction direction) {
-		// TODO: if we are currently idle, change direction to match the request. Then alert all our observers that we are decelerating,
+		// TODO: if we are currently idle, change direction to match the request. Then alert all our observers.
+        //  that we are decelerating,
+        //[DONE]
 		// TODO: then schedule an immediate state change to DOORS_OPENING.
+        //[DONE]
+
+        //Changing direction
+        if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
+            this.mCurrentDirection = direction;
+        //Announcing deceleration
+            for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorDecelerating(this);
+            }
+        //Schedule state change
+           scheduleStateChange(ElevatorState.DOORS_OPENING, 0);
+        }
 	}
 	
 	

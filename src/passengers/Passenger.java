@@ -85,6 +85,16 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			// If so, remove the passenger from the current floor, and as an observer of the current floor;
 			// then add the passenger as an observer of and passenger on the elevator. Then set the mCurrentState
 			// to ON_ELEVATOR.
+			//[DONE]
+
+			boolean board = this.willBoardElevator(elevator);
+			if (board){
+				elevator.getCurrentFloor().removeWaitingPassenger(this);
+				elevator.getCurrentFloor().removeObserver(this);
+				elevator.addObserver(this);
+				elevator.addPassenger(this);
+				this.mCurrentState = PassengerState.ON_ELEVATOR;
+			}
 			
 			
 			
