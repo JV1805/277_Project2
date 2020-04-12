@@ -22,6 +22,8 @@ public class Floor implements ElevatorObserver {
 	public Floor(int number, Building building) {
 		mNumber = number;
 		mBuilding = building;
+		mUpButton = false;
+		mDownButton = false;
 	}
 	
 	
@@ -34,10 +36,10 @@ public class Floor implements ElevatorObserver {
 		// TODO: implement this method as described in the comment.
 		//[DONE]
 		if (direction.equals(Elevator.Direction.MOVING_UP)){
-			mUpButton = true;
+			this.mUpButton = true;
 		}
 		else if (direction.equals(Elevator.Direction.MOVING_DOWN)){
-			mDownButton = true;
+			this.mDownButton = true;
 		}
 		for (FloorObserver fObserver: mObservers){
 			fObserver.directionRequested(this, direction);
@@ -51,11 +53,11 @@ public class Floor implements ElevatorObserver {
 		// TODO: complete this method.
 		//[DONE]
 		boolean directionPressed = false;
-		if (direction.equals(Elevator.Direction.MOVING_UP) && mUpButton){
-			directionPressed = mUpButton;
+		if (direction.equals(Elevator.Direction.MOVING_UP) && this.mUpButton){
+			directionPressed = this.mUpButton;
 		}
 		else if (direction.equals(Elevator.Direction.MOVING_DOWN) && mDownButton){
-			directionPressed = mDownButton;
+			directionPressed = this.mDownButton;
 		}
 		return directionPressed;
 	}
@@ -67,10 +69,10 @@ public class Floor implements ElevatorObserver {
 		// TODO: complete this method.
 		//[DONE]
 		if (direction.equals(Elevator.Direction.MOVING_DOWN) && directionIsPressed(Elevator.Direction.MOVING_DOWN)){
-			mDownButton = false;
+			this.mDownButton = false;
 		}
 		else if (direction.equals(Elevator.Direction.MOVING_UP) && directionIsPressed(Elevator.Direction.MOVING_UP)){
-			mUpButton = false;
+			this.mUpButton = false;
 		}
 	}
 	
