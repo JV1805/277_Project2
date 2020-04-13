@@ -52,7 +52,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 			}
 
 			//constructing the string
-			if (this.getFloorCount() - f < 10){
+			if ((this.getFloorCount() - f) < 10){
 				temp += " " + (this.getFloorCount() - f) + ": ";
 			}
 			else{
@@ -68,8 +68,11 @@ public class Building implements ElevatorObserver, FloorObserver {
 				}
 			}
 			//getting waiting passengers
-			String floorString = this.getFloor(this.getFloorCount()-1-f).toString().replace(",", " ");
-			temp += "| " + floorString.substring(1, floorString.length()-1);
+			String floorString = "";
+			for (int i = 0; i < this.getFloor(this.getFloorCount()-f).getWaitingPassengers().size(); i++) {
+				floorString += this.getFloor(this.getFloorCount()-f).getWaitingPassengers().get(i).getDestination();
+			}
+			temp += "| " + floorString.substring(0, floorString.length());
 			returnString += temp + "\n";
 		}
 		for (Elevator elevator : this.mElevators){
