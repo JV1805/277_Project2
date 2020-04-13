@@ -44,7 +44,7 @@ public class WorkerPassenger extends Passenger {
 	 PassengerNextDestinationEvent to occur when they are supposed to "reappear" (the first element of the durations list,
 	 which is also removed.)
 	*/
-	// [ATTEMPTED], needs to leave building if this does not happen in another class otherwise should be done
+	// [Done]
 	@Override
 	protected void leavingElevator(Elevator elevator) {
 		if (elevator.getCurrentFloor().getNumber() == 1) {

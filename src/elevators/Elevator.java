@@ -84,13 +84,13 @@ public class Elevator implements FloorObserver {
 		// TODO: port the logic of your state changes from Project 1, accounting for the adjustments in the spec.
 		// TODO: State changes are no longer immediate; they are scheduled using scheduleStateChange().
 
-      /*  if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
+        if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
             this.getCurrentFloor().addObserver(this);
             for (ElevatorObserver eObserver : this.mObservers){
                 eObserver.elevatorWentIdle(this);
             }
-        } */
-        if (this.mCurrentState.equals(ElevatorState.DOORS_OPENING)) {
+        }
+        else if (this.mCurrentState.equals(ElevatorState.DOORS_OPENING)) {
             scheduleStateChange(ElevatorState.DOORS_OPEN, 2);
         }
 
@@ -110,7 +110,8 @@ public class Elevator implements FloorObserver {
 
             scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChange);
         }
-
+        
+        
 		// Example of how to trigger a state change:
 		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
 		
