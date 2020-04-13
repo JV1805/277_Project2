@@ -34,11 +34,7 @@ public class VisitorPassenger extends Passenger {
     // [DONE]
     @Override
 	protected boolean willBoardElevator(Elevator elevator) {
-		boolean boarding = false;
-		if (elevator.getPassengerCount() < elevator.getCapacity()){
-			boarding = true;
-		}
-		return boarding;
+		return (elevator.getPassengerCount() < elevator.getCapacity());
 	}
 	
 	/*
