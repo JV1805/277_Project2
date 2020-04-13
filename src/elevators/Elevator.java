@@ -106,9 +106,9 @@ public class Elevator implements FloorObserver {
 
             int totalEntered = initialFloorCount - endFloorCount;
             int totalLeft = (initialElevatorCount + totalEntered) - endElevatorCount;
-            int totalChange = (int) Math.floor((totalEntered + totalLeft)/2);
+            int totalChangeTime = (int) Math.floor((totalEntered + totalLeft)/2);
 
-            scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChange);
+            scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChangeTime);
         }
         
         
