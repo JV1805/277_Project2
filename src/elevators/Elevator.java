@@ -92,6 +92,9 @@ public class Elevator implements FloorObserver {
         }
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPENING)) {
             scheduleStateChange(ElevatorState.DOORS_OPEN, 2);
+            for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorDoorsOpened(this);
+            }
         }
 
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
@@ -101,6 +104,8 @@ public class Elevator implements FloorObserver {
             for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
             	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
             }
+
+
             int endElevatorCount = this.mPassengers.size();
             int endFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 
@@ -186,7 +191,11 @@ public class Elevator implements FloorObserver {
 	 */
 	public boolean isIdle() {
 		// TODO: complete this method.
-		return false;
+        boolean idle = true;
+        if(mCurrentState != ElevatorState.IDLE_STATE){
+            idle = false;
+        }
+		return idle;
 	}
 	
 	// All elevators have a capacity of 10, for now.

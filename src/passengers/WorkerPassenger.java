@@ -29,7 +29,8 @@ public class WorkerPassenger extends Passenger {
 	public int getDestination() {
 		return mDestinationList.get(0);
 	}
-	
+
+	public long getDuration() { return mDurationList.get(0); }
 	// TODO: implement this template method variant. A Worker will only join an elevator with at most 3 people on it.
 	// [DONE]
 	@Override

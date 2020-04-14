@@ -4,6 +4,10 @@ import buildings.Building;
 import passengers.Passenger;
 import cecs277.Simulation;
 import passengers.VisitorPassenger;
+import passengers.WorkerPassenger;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.Random;
 
@@ -91,7 +95,26 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		and a standard deviation of 3 minutes.
 		 */
 		Random r = mBuilding.getSimulation().getRandom();
-		
-		return null;
+
+		//Random number from 2-5
+		int floorsVisiting = r.nextInt(4) + 2;
+		List<Integer> destinations = new ArrayList<>();
+		List<Long> durations = new ArrayList<>();
+
+		for (int i = 0; i < floorsVisiting; i++){
+			//Random number 2-(number of floors)
+			int tempDestination = r.nextInt(mBuilding.getFloorCount()-1) + 2;
+			destinations.add(tempDestination);
+			double tempDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
+			durations.add((Long) Math.round(tempDuration));
+		}
+
+		WorkerPassenger worker = new WorkerPassenger(destinations, durations);
+		//System.out.println(worker.getDestination());
+		//System.out.println(worker.getDuration());
+
+		// Look up the documentation for the .nextGaussian() method of the Random class.
+
+		return worker;
 	}
 }
