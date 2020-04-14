@@ -70,7 +70,8 @@ public class SpawnPassengerEvent extends SimulationEvent {
 
 		Random r = mBuilding.getSimulation().getRandom();
 		int floorCount = this.mBuilding.getFloorCount();
-
+		SPAWN_MEAN_DURATION = 3600;
+		SPAWN_STDEV_DURATION = 1200;
 		//subtract 1 from floor count to get range [0, floorcount - 2 ]
 		//add 2 so range is [2, floorcount]
 		int visitorDestination = r.nextInt(this.mBuilding.getFloorCount() - 1) + 2;
@@ -100,15 +101,22 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		int floorsVisiting = r.nextInt(4) + 2;
 		List<Integer> destinations = new ArrayList<>();
 		List<Long> durations = new ArrayList<>();
-
-		for (int i = 0; i < floorsVisiting; i++){
+		SPAWN_STDEV_DURATION = 180;
+		SPAWN_MEAN_DURATION = 600;
+		int tempDestination = r.nextInt(mBuilding.getFloorCount()-1) + 2;
+		destinations.add(tempDestination);
+		for (int i = 1; i < floorsVisiting; i++){
 			//Random number 2-(number of floors)
-			int tempDestination = r.nextInt(mBuilding.getFloorCount()-1) + 2;
+			while(tempDestination == destinations.get(destinations.size()-1)) {
+				tempDestination = r.nextInt(mBuilding.getFloorCount()-1) + 2;
+			}
 			destinations.add(tempDestination);
+		}
+		for (int i = 0; i < floorsVisiting; i++) {
 			double tempDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
 			durations.add((Long) Math.round(tempDuration));
 		}
-
+		
 		WorkerPassenger worker = new WorkerPassenger(destinations, durations);
 		//System.out.println(worker.getDestination());
 		//System.out.println(worker.getDuration());
