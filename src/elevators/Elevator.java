@@ -111,6 +111,35 @@ public class Elevator implements FloorObserver {
             scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChangeTime);
         }
         
+        else if (this.mCurrentState.equals(ElevatorState.DOORS_CLOSING)){
+        	for (int i = 0; i < mRequestedFloors.length; i++) {
+        		if (mRequestedFloors[i] == true) {
+        			i = mRequestedFloors.length;
+        		}
+        		if (i== mRequestedFloors.length-1) {
+        			mCurrentDirection = Direction.NOT_MOVING;
+        			scheduleStateChange(ElevatorState.IDLE_STATE, 2);
+        		}
+        	}
+        	switch(mCurrentDirection.ordinal()) {
+        	case 1:
+        		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i++) {
+            		if (mCurrentDirection == Direction.MOVING_UP && mRequestedFloors[i] == true) {
+            			scheduleStateChange(ElevatorState.ACCELERATING, 2);
+            			i = mBuilding.getFloorCount();
+            		}
+            	}
+        		break;
+        	case 2:
+        		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i--) {
+            		if (mCurrentDirection == Direction.MOVING_DOWN && mRequestedFloors[i] == true) {
+            			scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
+            			i = mBuilding.getFloorCount();
+            		}
+            	}
+        	}
+        }
+        
         
 		// Example of how to trigger a state change:
 		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
