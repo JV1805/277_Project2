@@ -212,6 +212,10 @@ public class Elevator implements FloorObserver {
             		mCurrentDirection = Direction.MOVING_UP;
             	}
         	}
+        	for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorDecelerating(this);
+            }
+        	scheduleStateChange(ElevatorState.DOORS_OPENING, 3);
         }
         
         
