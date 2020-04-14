@@ -121,7 +121,7 @@ public class Elevator implements FloorObserver {
         		if (mRequestedFloors[i] == true) {
         			i = mRequestedFloors.length;
         		}
-        		if (i== mRequestedFloors.length-1) {
+        		if (i == mRequestedFloors.length-1) {
         			mCurrentDirection = Direction.NOT_MOVING;
         			scheduleStateChange(ElevatorState.IDLE_STATE, 2);
         		}
@@ -142,6 +142,9 @@ public class Elevator implements FloorObserver {
             			i = mBuilding.getFloorCount();
             		}
             	}
+        		break;
+        	default:
+        		System.out.println("Something went wrong. Uh oh!");
         	}
         }
         
@@ -151,8 +154,63 @@ public class Elevator implements FloorObserver {
         }
         
         else if (this.mCurrentState.equals(ElevatorState.MOVING)){
-        	if (mCurrentDirection == Direction.MOVING_UP && mRequestedFloors[mCurrentFloor.getNumber()]) {
-        		mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()+1);
+        	if (mCurrentDirection == Direction.MOVING_UP) { //MAY CAUSE LOGIC ERROR LATER
+        		mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()+1); //+1 because going up
+        		if(mRequestedFloors[mCurrentFloor.getNumber()-1]) { //-1 bc getting index of "next", now current, floor
+        			scheduleStateChange(ElevatorState.DECELERATING, 2);
+        		}
+        		else {
+        			scheduleStateChange(ElevatorState.MOVING, 2);
+        		}
+        	}
+        	
+        	if (mCurrentDirection == Direction.MOVING_DOWN) { //MAY CAUSE LOGIC ERROR LATER
+        		mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()-1); //-1 because going down
+        		if(mRequestedFloors[mCurrentFloor.getNumber()-1]) { //-1 because getting index of "next", now current, floor
+        			scheduleStateChange(ElevatorState.DECELERATING, 2);
+        		}
+        		else {
+        			scheduleStateChange(ElevatorState.MOVING, 2);
+        		}
+        	}
+        }
+        
+        else if (this.mCurrentState.equals(ElevatorState.DECELERATING)){
+        	mRequestedFloors[mCurrentFloor.getNumber()-1] = false;
+        	int changeDirectionFlag = 3; // 3 means nothing was changed; 2 means dont change direction; 1 means change direction
+        	if (mCurrentDirection == Direction.MOVING_UP) {
+        		for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
+                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()
+                			&& !mCurrentFloor.mUpButton) { //if a passenger wants a floor lower and the up button is not pressed
+                		changeDirectionFlag = 1;
+                	}
+                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()) {
+                		changeDirectionFlag = 2;
+                	}
+                }
+        		if (changeDirectionFlag == 0) {
+            		mCurrentDirection = Direction.NOT_MOVING;
+            	}
+            	else if (changeDirectionFlag == 1) {
+            		mCurrentDirection = Direction.MOVING_UP;
+            	}
+        	}
+        	if (mCurrentDirection == Direction.MOVING_DOWN) {
+        		for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
+                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()
+                			&& !mCurrentFloor.mDownButton) { //if a passenger wants a floor higher and the down button is not pressed
+                		changeDirectionFlag = 1;
+                	}
+                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()) {
+                		changeDirectionFlag = 2;
+                	}
+                }
+        		if (changeDirectionFlag == 0) {
+            		mCurrentDirection = Direction.NOT_MOVING;
+            	}
+            	else if (changeDirectionFlag == 1) {
+            		mCurrentDirection = Direction.MOVING_UP;
+            	}
         	}
         }
         

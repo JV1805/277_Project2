@@ -10,7 +10,7 @@ public class Floor implements ElevatorObserver {
 	private Building mBuilding;
 	private List<Passenger> mPassengers = new ArrayList<>();
 	private ArrayList<FloorObserver> mObservers = new ArrayList<>();
-	private int mNumber;
+	private int mNumber; // THIS IS THE ACTUAL FLOOR NUMBER
 	
 	// TODO: declare a field(s) to help keep track of which direction buttons are currently pressed.
 	// You can assume that every floor has both up and down buttons, even the ground and top floors.
