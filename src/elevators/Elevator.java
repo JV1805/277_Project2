@@ -42,13 +42,13 @@ public class Elevator implements FloorObserver {
 	// TODO: declare a field to keep track of which floors have been requested by passengers.
 	// [DONE]
 
-	private boolean[] mRequestedFloors;
+	//private boolean[] mRequestedFloors = new boolean[mBuilding.getFloorCount()];
+    private ArrayList<Floor> wantedFloors= new ArrayList<>();
 
 	public Elevator(int number, Building bld) {
 		mNumber = number;
 		mBuilding = bld;
 		mCurrentFloor = bld.getFloor(1);
-		mRequestedFloors = new boolean[mBuilding.getFloorCount()];
 		scheduleStateChange(ElevatorState.IDLE_STATE, 0);
 	}
 	
@@ -69,7 +69,8 @@ public class Elevator implements FloorObserver {
         // in the array, if so then
 		// [DONE]
         mPassengers.add(passenger);
-		mRequestedFloors[passenger.getDestination()-1] =true;
+		//mRequestedFloors[passenger.getDestination()-1] =true;
+        wantedFloors.add(this.getBuilding().getFloor(passenger.getDestination()));
 	}
 	
 	public void removePassenger(Passenger passenger) {
@@ -94,11 +95,11 @@ public class Elevator implements FloorObserver {
             scheduleStateChange(ElevatorState.DOORS_OPEN, 2);
         }
 
-        else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
+        else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)) {
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 
-            for (ElevatorObserver eObserver : this.mObservers){
+            for (ElevatorObserver eObserver : this.mObservers) {
                 eObserver.elevatorDoorsOpened(this);
             }
             int endElevatorCount = this.mPassengers.size();
@@ -106,12 +107,11 @@ public class Elevator implements FloorObserver {
 
             int totalEntered = initialFloorCount - endFloorCount;
             int totalLeft = (initialElevatorCount + totalEntered) - endElevatorCount;
-            int totalChangeTime = (int) Math.floor((totalEntered + totalLeft)/2);
+            int totalChangeTime = (int) Math.floor((totalEntered + totalLeft) / 2);
 
             scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChangeTime);
         }
-        
-        
+
 		// Example of how to trigger a state change:
 		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
 		
