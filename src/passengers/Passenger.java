@@ -74,8 +74,10 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			// leavingElevator method to allow a derived class to do something when the passenger departs.
 			// Set the current state to BUSY.
 			
-			
-			
+			elevator.removePassenger(this);
+			elevator.removeObserver(this);
+			leavingElevator(elevator);
+			mCurrentState = PassengerState.BUSY;
 			
 		}
 		// The elevator has arrived on the floor we are waiting on. If the elevator has room for us, remove ourselves
@@ -95,13 +97,6 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 				elevator.addPassenger(this);
 				this.mCurrentState = PassengerState.ON_ELEVATOR;
 			}
-			
-			
-			
-			
-			
-			
-			
 		}
 	}
 	
