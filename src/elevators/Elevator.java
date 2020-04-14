@@ -98,10 +98,14 @@ public class Elevator implements FloorObserver {
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 
+            for (int i = 0; i < mObservers.size(); i++) {
+            	mObservers.get(i).elevatorDoorsOpened(this);
+            }
+            
             for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
             	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
             }
-
+            
 
             int endElevatorCount = this.mPassengers.size();
             int endFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
