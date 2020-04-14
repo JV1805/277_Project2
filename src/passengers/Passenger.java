@@ -82,6 +82,7 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			// TODO: remove this passenger from the elevator, and as an observer of the elevator. Call the
 			// leavingElevator method to allow a derived class to do something when the passenger departs.
 			// Set the current state to BUSY.
+			//[DONE]
 			
 			elevator.removePassenger(this);
 			elevator.removeObserver(this);

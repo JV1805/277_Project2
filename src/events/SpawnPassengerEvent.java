@@ -21,21 +21,21 @@ public class SpawnPassengerEvent extends SimulationEvent {
 	// After executing, will reference the Passenger object that was spawned.
 	private Passenger mPassenger;
 	private Building mBuilding;
-	
+
 	public SpawnPassengerEvent(long scheduledTime, Building building) {
 		super(scheduledTime);
 		mBuilding = building;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + "Adding " + mPassenger + " to floor 1.";
 	}
-	
+
 	@Override
 	public void execute(Simulation sim) {
 		Random r = mBuilding.getSimulation().getRandom();
-		
+
 		// 75% of all passengers are normal Visitors.
 		if (r.nextInt(4) <= 2) {
 			mPassenger = getVisitor();
@@ -58,8 +58,8 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		s.scheduleEvent(ev);
 
 	}
-	
-	
+
+
 	private Passenger getVisitor() {
 		/*
 		 TODO: construct a VisitorPassenger and return it.
@@ -67,6 +67,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		 The visitor's visit duration should follow a NORMAL (GAUSSIAN) DISTRIBUTION with a mean of 1 hour
 		 and a standard deviation of 20 minutes.
 		 */
+		//[DONE]
 
 		Random r = mBuilding.getSimulation().getRandom();
 		int floorCount = this.mBuilding.getFloorCount();
@@ -84,7 +85,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 
 		return visitor;
 	}
-	
+
 	private Passenger getWorker() {
 		/*
 		TODO: construct and return a WorkerPassenger. A Worker requires a list of destinations and a list of durations.
@@ -116,7 +117,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 			double tempDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
 			durations.add((Long) Math.round(tempDuration));
 		}
-		
+
 		WorkerPassenger worker = new WorkerPassenger(destinations, durations);
 		//System.out.println(worker.getDestination());
 		//System.out.println(worker.getDuration());
