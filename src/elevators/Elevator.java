@@ -176,8 +176,10 @@ public class Elevator implements FloorObserver {
         	}
         	
         	if (mCurrentDirection == Direction.MOVING_DOWN) { //MAY CAUSE LOGIC ERROR LATER
-        		mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()-1); //-1 because going down
-        		if(mRequestedFloors[mCurrentFloor.getNumber()-1]) { //-1 because getting index of "next", now current, floor
+
+                mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()-1); //-1 because going down
+
+                if(mRequestedFloors[mCurrentFloor.getNumber()-1]) { //-1 because getting index of "next", now current, floor
         			scheduleStateChange(ElevatorState.DECELERATING, 2);
         		}
         		else {
@@ -243,6 +245,7 @@ public class Elevator implements FloorObserver {
 		// TODO: if we are currently idle and not on the given floor, change our direction to move towards the floor.
 		// TODO: set a floor request for the given floor, and schedule a state change to ACCELERATING immediately.
 		//[ATTEMPTED]
+        //CAUSES ERROR
 		if (isIdle() && (mCurrentFloor.getNumber() != floor.getNumber())){
 			if (mCurrentFloor.getNumber() < floor.getNumber()){
 				setCurrentDirection(Direction.MOVING_UP);
