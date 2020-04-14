@@ -135,7 +135,14 @@ public class Floor implements ElevatorObserver {
 	public void elevatorDecelerating(Elevator elevator) {
 		// TODO: if the elevator is arriving at THIS FLOOR, alert all the floor's observers that elevatorArriving.
 		// TODO:    then clear the elevator's current direction from this floor's requested direction buttons.
-		
+
+        //Don't know how to do the condition
+        /*if (){
+            for (FloorObserver fObserver : mObservers){
+                fObserver.elevatorArriving(this, elevator);
+                clearDirection(elevator.getCurrentDirection());
+            }
+        }*/
 	}
 	
 	@Override
