@@ -53,7 +53,16 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			
 			// TODO: check if the elevator is either NOT_MOVING, or is going in the direction that this passenger wants.
 			// If so, this passenger becomes an observer of the elevator.
-			
+			//[DONE]
+			if (elevatorDirection == Elevator.Direction.NOT_MOVING) {
+				elevator.addObserver(this);
+			}
+			else if (elevatorDirection == Elevator.Direction.MOVING_UP && this.getDestination() > floor.getNumber()) {
+				elevator.addObserver(this);
+			}
+			else if (elevatorDirection == Elevator.Direction.MOVING_DOWN && this.getDestination() < floor.getNumber()) {
+				elevator.addObserver(this);
+			}
 		}
 		// This else should not happen if your code is correct. Do not remove this branch; it reveals errors in your code.
 		else {
