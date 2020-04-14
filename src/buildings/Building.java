@@ -22,7 +22,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 			mFloors.add(f);
 		}
 		
-		// Construct the elevators, and observe each one.
+		// Construct the elevators, and observe each one. and cry while it doesnt work
 		for (int i = 0; i < elevatorCount; i++) {
 			Elevator elevator = new Elevator(i + 1, this);
 			elevator.addObserver(this);
