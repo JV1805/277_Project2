@@ -97,11 +97,9 @@ public class Elevator implements FloorObserver {
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
-
             for (int i = 0; i < mObservers.size(); i++) {
             	mObservers.get(i).elevatorDoorsOpened(this);
             }
-            
             for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
             	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
             }
@@ -131,33 +129,31 @@ public class Elevator implements FloorObserver {
         	if (mCurrentDirection == Direction.MOVING_UP) {
         		boolean continueGoing = true;
         		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i++) {
-            		if (i > mCurrentFloor.getNumber() && mRequestedFloors[i]) {
+            		if (i > mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
             			scheduleStateChange(ElevatorState.ACCELERATING, 2);
             			continueGoing = false;
-            			i = mBuilding.getFloorCount();
+            			break;
             		}
             	}
         		for (int i = mCurrentFloor.getNumber()-1; i >= 0; i--) {
-        			if (i < mCurrentFloor.getNumber() && mRequestedFloors[i] && continueGoing) {
+        			if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i] && continueGoing) {
         				mCurrentDirection = Direction.MOVING_DOWN;
         				scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
         			}
         		}
         	}
-        	
         	else if (mCurrentDirection == Direction.MOVING_DOWN) {
         		boolean continueGoing = true;
         		for (int i = mCurrentFloor.getNumber()-1; i >= 0; i--) {
-            		if (i < mCurrentFloor.getNumber() && mRequestedFloors[i]) {
+            		if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
             			scheduleStateChange(ElevatorState.ACCELERATING, 2);
             			continueGoing = false;
-            			i = mBuilding.getFloorCount();
+            			break;
             		}
             	}
         		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i++) {
-        			if (i < mCurrentFloor.getNumber() && mRequestedFloors[i] && continueGoing) {
+        			if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i] && continueGoing) {
             			scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
-            			i = mBuilding.getFloorCount();
             		}
         		}
         	}
