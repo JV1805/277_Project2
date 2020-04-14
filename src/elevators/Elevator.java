@@ -34,7 +34,7 @@ public class Elevator implements FloorObserver {
 
 	private ElevatorState mCurrentState = ElevatorState.IDLE_STATE;
 	private Direction mCurrentDirection = Direction.NOT_MOVING;
-	private Floor mCurrentFloor;
+	private Floor mCurrentFloor; //THIS IS AN INDEX
 	private List<Passenger> mPassengers = new ArrayList<>();
 	
 	private List<ElevatorObserver> mObservers = new ArrayList<>();
@@ -98,8 +98,8 @@ public class Elevator implements FloorObserver {
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 
-            for (ElevatorObserver eObserver : this.mObservers){
-                eObserver.elevatorDoorsOpened(this);
+            for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
+            	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
             }
             int endElevatorCount = this.mPassengers.size();
             int endFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
@@ -137,6 +137,17 @@ public class Elevator implements FloorObserver {
             			i = mBuilding.getFloorCount();
             		}
             	}
+        	}
+        }
+        
+        else if (this.mCurrentState.equals(ElevatorState.ACCELERATING)){
+        	this.getCurrentFloor().removeObserver(this);
+        	scheduleStateChange(ElevatorState.MOVING, 2);
+        }
+        
+        else if (this.mCurrentState.equals(ElevatorState.MOVING)){
+        	if (mCurrentDirection == Direction.MOVING_UP && mRequestedFloors[mCurrentFloor.getNumber()]) {
+        		mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()+1);
         	}
         }
         
