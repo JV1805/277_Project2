@@ -118,7 +118,9 @@ public class Building implements ElevatorObserver, FloorObserver {
 	@Override
 	public void elevatorArriving(Floor sender, Elevator elevator) {
 		// TODO: add the floor mWaitingFloors if it is not already in the queue.
-
+		if (!mWaitingFloors.contains(sender.getNumber())){
+			mWaitingFloors.add(sender.getNumber());
+		}
 	}
 	
 	@Override

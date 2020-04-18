@@ -189,7 +189,47 @@ public class Elevator implements FloorObserver {
         }
         
         else if (this.mCurrentState.equals(ElevatorState.DECELERATING)){
-        	mRequestedFloors[mCurrentFloor.getNumber()-1] = false;
+            mRequestedFloors[mCurrentFloor.getNumber()-1] = false;
+            if (mCurrentDirection.equals(Direction.MOVING_UP)){
+                int highestRequested = 1;
+                for (Passenger p : mPassengers){
+                    if (p.getDestination() > mCurrentFloor.getNumber()){
+                        highestRequested = p.getDestination();
+                    }
+                }
+                if (mCurrentFloor.mUpButton || highestRequested > mCurrentFloor.getNumber()){
+                    mCurrentDirection = Direction.MOVING_UP;
+                }
+                else if (mCurrentFloor.mDownButton){
+                    mCurrentDirection = Direction.MOVING_DOWN;
+                }
+                else {
+                    mCurrentDirection = Direction.NOT_MOVING;
+                }
+            }
+            else if (mCurrentDirection.equals(Direction.MOVING_DOWN)){
+                int lowestRequested = mBuilding.getFloorCount();
+                for (Passenger p : mPassengers){
+                    if (p.getDestination() < mCurrentFloor.getNumber()){
+                        lowestRequested = p.getDestination();
+                    }
+                }
+                if (mCurrentFloor.mDownButton || lowestRequested < mCurrentFloor.getNumber()){
+                    mCurrentDirection = Direction.MOVING_DOWN;
+                }
+                else if (mCurrentFloor.mDownButton){
+                    mCurrentDirection = Direction.MOVING_UP;
+                }
+                else {
+                    mCurrentDirection = Direction.NOT_MOVING;
+                }
+            }
+            for (int i = 0; i < mObservers.size(); i++) {
+                mObservers.get(i).elevatorDecelerating(this);
+            }
+            scheduleStateChange(ElevatorState.DOORS_OPENING, 3);
+
+           /* mRequestedFloors[mCurrentFloor.getNumber()-1] = false;
         	int changeDirectionFlag = 3; // 3 means nothing was changed; 2 means dont change direction; 1 means change direction
         	if (mCurrentDirection == Direction.MOVING_UP) {
         		for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
@@ -197,9 +237,12 @@ public class Elevator implements FloorObserver {
                 			&& !mCurrentFloor.mUpButton) { //if a passenger wants a floor lower and the up button is not pressed
                 		changeDirectionFlag = 1;
                 	}
-                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()) {
+                	else if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()) {
                 		changeDirectionFlag = 2;
                 	}
+                	else {
+                	    changeDirectionFlag = 0;
+                    }
                 }
         		if (changeDirectionFlag == 0) {
             		mCurrentDirection = Direction.NOT_MOVING;
@@ -214,9 +257,12 @@ public class Elevator implements FloorObserver {
                 			&& !mCurrentFloor.mDownButton) { //if a passenger wants a floor higher and the down button is not pressed
                 		changeDirectionFlag = 1;
                 	}
-                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()) {
+                	else if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()) {
                 		changeDirectionFlag = 2;
                 	}
+                	else {
+                	    changeDirectionFlag = 0;
+                    }
                 }
         		if (changeDirectionFlag == 0) {
             		mCurrentDirection = Direction.NOT_MOVING;
@@ -225,10 +271,10 @@ public class Elevator implements FloorObserver {
             		mCurrentDirection = Direction.MOVING_UP;
             	}
         	}
-        	for (ElevatorObserver eObserver : this.mObservers){
-                eObserver.elevatorDecelerating(this);
+        	for (int i = 0; i < mObservers.size(); i++) {
+                mObservers.get(i).elevatorDecelerating(this);
             }
-        	scheduleStateChange(ElevatorState.DOORS_OPENING, 3);
+        	scheduleStateChange(ElevatorState.DOORS_OPENING, 3);*/
         }
         
         
@@ -338,8 +384,8 @@ public class Elevator implements FloorObserver {
         if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
             this.mCurrentDirection = direction;
         //Announcing deceleration
-            for (ElevatorObserver eObserver : this.mObservers){
-                eObserver.elevatorDecelerating(this);
+            for (int i = 0; i < mObservers.size(); i++) {
+                mObservers.get(i).elevatorDecelerating(this);
             }
         //Schedule state change
            scheduleStateChange(ElevatorState.DOORS_OPENING, 0);

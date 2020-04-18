@@ -54,46 +54,62 @@ public class Simulation {
 		double realTimeScale = 1.0;
 		
 		// TODO: the simulation currently stops at 200s. Instead, ask the user how long they want to simulate.
-		nextSimLength = 200;
-		
-		long nextStopTime = mCurrentTime + nextSimLength;
-		// If the next event in the queue occurs after the requested sim time, then just fast forward to the requested sim time.
-		if (mEvents.peek().getScheduledTime() >= nextStopTime) {
-			mCurrentTime = nextStopTime;
-		}
-		
-		// As long as there are events that happen between "now" and the requested sim time, process those events and
-		// advance the current time along the way.
-		while (!mEvents.isEmpty() && mEvents.peek().getScheduledTime() <= nextStopTime) {
-			SimulationEvent nextEvent = mEvents.poll();
-			
-			long diffTime = nextEvent.getScheduledTime() - mCurrentTime;
-			if (simulateRealTime && diffTime > 0) {
-				try {
-					Thread.sleep((long)(realTimeScale * diffTime * 1000));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		//[DONE]
+		//nextSimLength = 200;
+
+		Scanner enteredDuration = new Scanner(System.in);
+		System.out.print("Enter how long you want to simulate: ");
+		nextSimLength = enteredDuration.nextInt();
+		while (nextSimLength != -1) {
+
+			long nextStopTime = mCurrentTime + nextSimLength;
+			// If the next event in the queue occurs after the requested sim time, then just fast forward to the requested sim time.
+			if (mEvents.peek().getScheduledTime() >= nextStopTime) {
+				mCurrentTime = nextStopTime;
 			}
-			
-			mCurrentTime += diffTime;
-			nextEvent.execute(this);
-			System.out.println(nextEvent);
+
+			// As long as there are events that happen between "now" and the requested sim time, process those events and
+			// advance the current time along the way.
+			while (!mEvents.isEmpty() && mEvents.peek().getScheduledTime() <= nextStopTime) {
+				SimulationEvent nextEvent = mEvents.poll();
+
+				long diffTime = nextEvent.getScheduledTime() - mCurrentTime;
+				if (simulateRealTime && diffTime > 0) {
+					try {
+						Thread.sleep((long) (realTimeScale * diffTime * 1000));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+				mCurrentTime += diffTime;
+				nextEvent.execute(this);
+				System.out.println(nextEvent);
+			}
+
+			// TODO: print the Building after simulating the requested time.
+			//[ATTEMPTED]
+
+			System.out.println(b);
+
+			System.out.println("Enter how long you want to simulate: ");
+			nextSimLength = enteredDuration.nextInt();
 		}
-		
-		// TODO: print the Building after simulating the requested time.
-		
-		
 		/*
 		 TODO: the simulation stops after one round of simulation. Write a loop that continues to ask the user
 		 how many seconds to simulate, simulates that many seconds, and stops only if they choose -1 seconds.
 		*/
+		//[ATTEMPTED] MIGHT BE WRONG
 	}
 	
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		// TODO: ask the user for a seed value and change the line below.
-		Simulation sim = new Simulation(new Random(1));
+		//[ATTEMPTED]
+		System.out.print("Enter a seed value: ");
+		Scanner seedValue = new Scanner(System.in);
+		int seed = seedValue.nextInt();
+		Simulation sim = new Simulation(new Random(seed));
 		sim.startSimulation(s);
 	}
 }
