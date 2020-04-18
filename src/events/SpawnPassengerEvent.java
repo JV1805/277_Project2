@@ -96,6 +96,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		To generate the list of durations, generate X integers using a NORMAL DISTRIBUTION with a mean of 10 minutes
 		and a standard deviation of 3 minutes.
 		 */
+		//[DONE]
 		Random r = mBuilding.getSimulation().getRandom();
 
 		//Random number from 2-5

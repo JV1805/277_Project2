@@ -114,7 +114,7 @@ public class Elevator implements FloorObserver {
 
             scheduleStateChange(ElevatorState.DOORS_CLOSING, 1 + totalChangeTime);
         }
-        
+        //seems fishy
         else if (this.mCurrentState.equals(ElevatorState.DOORS_CLOSING)){
         	for (int i = 0; i < mRequestedFloors.length; i++) {
         		if (mRequestedFloors[i] == true) {
@@ -245,19 +245,19 @@ public class Elevator implements FloorObserver {
 		// TODO: if we are currently idle and not on the given floor, change our direction to move towards the floor.
 		// TODO: set a floor request for the given floor, and schedule a state change to ACCELERATING immediately.
 		//[ATTEMPTED]
-        //CAUSES ERROR
-		if (isIdle() && (mCurrentFloor.getNumber() != floor.getNumber())){
-			if (mCurrentFloor.getNumber() < floor.getNumber()){
+		if (isIdle() && (mCurrentFloor.getNumber() != floor.getNumber())) {
+			if (mCurrentFloor.getNumber() < floor.getNumber()) {
 				setCurrentDirection(Direction.MOVING_UP);
-			}
-			else{
+			} else {
 				setCurrentDirection(Direction.MOVING_DOWN);
 			}
 		}
-		mRequestedFloors[floor.getNumber()-1] = true;
-		scheduleStateChange(ElevatorState.ACCELERATING, 0);
+		if (mCurrentDirection != Direction.NOT_MOVING) {
+
+			mRequestedFloors[floor.getNumber() - 1] = true;
+			scheduleStateChange(ElevatorState.ACCELERATING, 0);
+		}
 	}
-	
 	// Simple accessors
 	public Floor getCurrentFloor() {
 		return mCurrentFloor;
