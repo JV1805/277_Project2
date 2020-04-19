@@ -83,12 +83,26 @@ public class Elevator implements FloorObserver {
 	public void tick() {
 		// TODO: port the logic of your state changes from Project 1, accounting for the adjustments in the spec.
 		// TODO: State changes are no longer immediate; they are scheduled using scheduleStateChange().
-
         if (this.mCurrentState.equals(ElevatorState.IDLE_STATE)){
+//        	 if (mCurrentFloor.getNumber() == 10) {
+//         		System.out.println("AT IDLE begin");
+//         		for (int i = 0; i < mRequestedFloors.length; i++) {
+//         			System.out.println(mRequestedFloors[i]);
+//         		}
+//         	System.out.println();
+//         	}
+        	 
             this.getCurrentFloor().addObserver(this);
             for (ElevatorObserver eObserver : this.mObservers){
                 eObserver.elevatorWentIdle(this);
             }
+            
+//            if (mCurrentFloor.getNumber() == 10) {
+//        		System.out.println("AT IDLE end");
+//        		for (int i = 0; i < mRequestedFloors.length; i++) {
+//        			System.out.println(mRequestedFloors[i]);
+//        		}
+//        	}
         }
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPENING)) {
             scheduleStateChange(ElevatorState.DOORS_OPEN, 2);
@@ -97,11 +111,17 @@ public class Elevator implements FloorObserver {
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
+            List<Integer> doorOpenedFloors = new ArrayList<>();
             for (int i = 0; i < mObservers.size(); i++) {
             	mObservers.get(i).elevatorDoorsOpened(this);
             }
-            for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
-            	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
+            for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
+//            	System.out.println(this.getCurrentFloor().getWaitingPassengers().get(i));
+//            	if (!doorOpenedFloors.contains(this.getCurrentFloor().getWaitingPassengers().get(i).getDestination())) {
+//                	doorOpenedFloors.add(this.getCurrentFloor().getWaitingPassengers().get(i).getDestination());
+//                	int index = this.getCurrentFloor().getWaitingPassengers().indexOf(this.getCurrentFloor().getWaitingPassengers().get(i));
+                	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
+//            	}
             }
             
 
@@ -302,9 +322,18 @@ public class Elevator implements FloorObserver {
 			}
 		}
 		if (mCurrentDirection != Direction.NOT_MOVING) {
-
+//			System.out.println("AT DISPATCH != NOT MOVING begin");
+//	     	for (int i = 0; i < mRequestedFloors.length; i++) {
+//	     		System.out.println(mRequestedFloors[i]);
+//	     	}
+//	     	
 			mRequestedFloors[floor.getNumber() - 1] = true;
 			scheduleStateChange(ElevatorState.ACCELERATING, 0);
+			
+//			System.out.println("AT DISPATCH != NOT MOVING end");
+//	     	for (int i = 0; i < mRequestedFloors.length; i++) {
+//	     		System.out.println(mRequestedFloors[i]);
+//	     	}
 		}
 		if (mCurrentDirection == Direction.NOT_MOVING) {
 			for (ElevatorObserver eObserver : this.mObservers){
