@@ -178,7 +178,7 @@ public class Elevator implements FloorObserver {
         		}
         	}
         	
-        	if (mCurrentDirection == Direction.MOVING_DOWN) { //MAY CAUSE LOGIC ERROR LATER
+        	else if (mCurrentDirection == Direction.MOVING_DOWN) { //MAY CAUSE LOGIC ERROR LATER
 
                 mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()-1); //-1 because going down
 
