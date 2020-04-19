@@ -164,7 +164,7 @@ public class Elevator implements FloorObserver {
         
         else if (this.mCurrentState.equals(ElevatorState.ACCELERATING)){
         	this.getCurrentFloor().removeObserver(this);
-        	scheduleStateChange(ElevatorState.MOVING, 2);
+        	scheduleStateChange(ElevatorState.MOVING, 3);
         }
         
         else if (this.mCurrentState.equals(ElevatorState.MOVING)){
