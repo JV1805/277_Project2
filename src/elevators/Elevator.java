@@ -306,6 +306,11 @@ public class Elevator implements FloorObserver {
 			mRequestedFloors[floor.getNumber() - 1] = true;
 			scheduleStateChange(ElevatorState.ACCELERATING, 0);
 		}
+		if (mCurrentDirection == Direction.NOT_MOVING) {
+			for (ElevatorObserver eObserver : this.mObservers){
+                eObserver.elevatorWentIdle(this);
+            }
+		}
 	}
 	// Simple accessors
 	public Floor getCurrentFloor() {
