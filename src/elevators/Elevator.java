@@ -220,7 +220,7 @@ public class Elevator implements FloorObserver {
                 if (mCurrentFloor.mDownButton || lowestRequested < mCurrentFloor.getNumber()){
                     mCurrentDirection = Direction.MOVING_DOWN;
                 }
-                else if (mCurrentFloor.mDownButton){
+                else if (mCurrentFloor.mUpButton){
                     mCurrentDirection = Direction.MOVING_UP;
                 }
                 else {
