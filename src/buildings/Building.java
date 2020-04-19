@@ -70,7 +70,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 			//getting waiting passengers
 			String floorString = "";
 			for (int i = 0; i < this.getFloor(this.getFloorCount()-f).getWaitingPassengers().size(); i++) {
-				floorString += this.getFloor(this.getFloorCount()-f).getWaitingPassengers().get(i).getDestination();
+				floorString += this.getFloor(this.getFloorCount()-f).getWaitingPassengers().get(i).getDestination() + " ";
 			}
 			temp += "| " + floorString.substring(0, floorString.length());
 			returnString += temp + "\n";
