@@ -327,11 +327,7 @@ public class Elevator implements FloorObserver {
 	public boolean isIdle() {
 		// TODO: complete this method.
 		//[DONE]
-        boolean idle = true;
-        if(mCurrentState != ElevatorState.IDLE_STATE){
-            idle = false;
-        }
-		return idle;
+        return (mCurrentState == ElevatorState.IDLE_STATE);
 	}
 	
 	// All elevators have a capacity of 10, for now.
