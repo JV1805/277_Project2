@@ -75,7 +75,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		SPAWN_STDEV_DURATION = 1200;
 		//subtract 1 from floor count to get range [0, floorcount - 2 ]
 		//add 2 so range is [2, floorcount]
-		int visitorDestination = r.nextInt(this.mBuilding.getFloorCount() - 1) + 2;
+		int visitorDestination = r.nextInt(floorCount - 1) + 2;
 
 			double visitorDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
 

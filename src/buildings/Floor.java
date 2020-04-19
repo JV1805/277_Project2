@@ -89,10 +89,10 @@ public class Floor implements ElevatorObserver {
 
 		Elevator.Direction direction = Elevator.Direction.NOT_MOVING;
 
-		if (p.getDestination() > this.mNumber){
+		if (p.getDestination() > mNumber){
 			direction = Elevator.Direction.MOVING_UP;
 		}
-		else if (p.getDestination() < this.mNumber){
+		else if (p.getDestination() < mNumber){
 			direction = Elevator.Direction.MOVING_DOWN;
 		}
 
