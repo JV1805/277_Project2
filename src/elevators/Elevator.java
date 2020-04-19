@@ -116,45 +116,48 @@ public class Elevator implements FloorObserver {
         }
         //seems fishy
         else if (this.mCurrentState.equals(ElevatorState.DOORS_CLOSING)){
+        	//sets a flag to determine if a floor has been requested by the end of the loop
+        	boolean noFloorRequested = true;
+        	//sets a flag to determine if we have already changed states for later
+        	boolean stateNotChanged = true;
         	for (int i = 0; i < mRequestedFloors.length; i++) {
         		if (mRequestedFloors[i] == true) {
-        			i = mRequestedFloors.length;
+        			noFloorRequested = false;
         		}
-        		if (i == mRequestedFloors.length-1) {
+        		//if it gets to the end and no floor has been requested goes to not moving/idle
+        		if (i == mRequestedFloors.length-1 && noFloorRequested) {
         			mCurrentDirection = Direction.NOT_MOVING;
         			scheduleStateChange(ElevatorState.IDLE_STATE, 2);
+        			stateNotChanged = false;
+        		}
+        		//if moving down checks floors bottom to top, program will find lower floors first then exit if accelerating down
+        		//only executes if the current floor is requested
+        		else if (mCurrentDirection == Direction.MOVING_DOWN && mRequestedFloors[i]) { 
+            		if(i < mCurrentFloor.getNumber()-1) {
+            			scheduleStateChange(ElevatorState.ACCELERATING, 2);
+            			stateNotChanged = false;
+            			i = mRequestedFloors.length;
+            		}
+            		else if (i > mCurrentFloor.getNumber()-1) {
+            			mCurrentDirection = Direction.MOVING_UP;
+            			scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
+            			stateNotChanged = false;
+            		}
         		}
         	}
         	
-        	if (mCurrentDirection == Direction.MOVING_UP) {
-        		boolean continueGoing = true;
-        		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i++) {
-            		if (i > mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
-            			scheduleStateChange(ElevatorState.ACCELERATING, 2);
-            			continueGoing = false;
-            			break;
-            		}
-            	}
-        		for (int i = mCurrentFloor.getNumber()-1; i >= 0; i--) {
-        			if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i] && continueGoing) {
+        	//if moving up checks floors top to bottom, program will find higher floors first then exit if accelerating up
+        	//will not run if no floor has been requested
+        	if (mCurrentDirection == Direction.MOVING_UP && !noFloorRequested && stateNotChanged) {
+        		for (int i = mBuilding.getFloorCount()-1; i >= 0; i--) {
+        			if (i > mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
+        				scheduleStateChange(ElevatorState.ACCELERATING, 2);
+        				i = -1; //exit condition
+        			}
+        			else if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
         				mCurrentDirection = Direction.MOVING_DOWN;
         				scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
         			}
-        		}
-        	}
-        	else if (mCurrentDirection == Direction.MOVING_DOWN) {
-        		boolean continueGoing = true;
-        		for (int i = mCurrentFloor.getNumber()-1; i >= 0; i--) {
-            		if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i]) {
-            			scheduleStateChange(ElevatorState.ACCELERATING, 2);
-            			continueGoing = false;
-            			break;
-            		}
-            	}
-        		for (int i = mCurrentFloor.getNumber()-1; i < mBuilding.getFloorCount(); i++) {
-        			if (i < mCurrentFloor.getNumber()-1 && mRequestedFloors[i] && continueGoing) {
-            			scheduleStateChange(ElevatorState.DOORS_OPENING, 2);
-            		}
         		}
         	}
         }
