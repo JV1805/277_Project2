@@ -53,7 +53,7 @@ public class VisitorPassenger extends Passenger {
 		else {
 			this.mDestination = 1;
 			Simulation s = elevator.getBuilding().getSimulation();
-			PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + 10,
+			PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + mDuration,
 					this,	elevator.getCurrentFloor());
 			s.scheduleEvent(ev);
 

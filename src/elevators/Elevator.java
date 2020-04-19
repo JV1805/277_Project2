@@ -132,8 +132,8 @@ public class Elevator implements FloorObserver {
         		}
         		//if moving down checks floors bottom to top, program will find lower floors first then exit if accelerating down
         		//only executes if the current floor is requested
-        		else if (mCurrentDirection == Direction.MOVING_DOWN && mRequestedFloors[i]) { 
-            		if(i < mCurrentFloor.getNumber()-1) {
+        		else if (mCurrentDirection == Direction.MOVING_DOWN && mRequestedFloors[i]) {
+        		    if(i < mCurrentFloor.getNumber()-1) {
             			scheduleStateChange(ElevatorState.ACCELERATING, 2);
             			stateNotChanged = false;
             			i = mRequestedFloors.length;
