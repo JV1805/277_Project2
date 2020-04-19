@@ -111,7 +111,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 		//[ATTEMPTED]
 		if (!mWaitingFloors.isEmpty()){
 			int floor = mWaitingFloors.remove();
-			elevator.dispatchTo(getFloor(floor));
+			elevator.dispatchTo(getFloor(floor-1));
 		}
 	}
 	
