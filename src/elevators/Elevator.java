@@ -211,7 +211,6 @@ public class Elevator implements FloorObserver {
                 }
             }
             else if (mCurrentDirection.equals(Direction.MOVING_DOWN)){
-            	System.out.println(mCurrentFloor);
                 int lowestRequested = mBuilding.getFloorCount();
                 for (Passenger p : mPassengers){
                     if (p.getDestination() < mCurrentFloor.getNumber()){
@@ -221,7 +220,7 @@ public class Elevator implements FloorObserver {
                 if (mCurrentFloor.mDownButton || lowestRequested < mCurrentFloor.getNumber()){
                     mCurrentDirection = Direction.MOVING_DOWN;
                 }
-                else if (mCurrentFloor.mUpButton){
+                else if (mCurrentFloor.mDownButton){
                     mCurrentDirection = Direction.MOVING_UP;
                 }
                 else {
