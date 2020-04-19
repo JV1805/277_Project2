@@ -136,7 +136,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 			}
 		}
 		if (!elevatorSent){
-			mWaitingFloors.add(floor.getNumber());
+			mWaitingFloors.add(floor.getNumber()+1);
 		}
 	}
 }
