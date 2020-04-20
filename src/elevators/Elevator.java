@@ -112,8 +112,13 @@ public class Elevator implements FloorObserver {
 			int initialElevatorCount = this.mPassengers.size();
 			int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 			List<Passenger> reversedList = new ArrayList<>();
-			for (int i = 0; i < mObservers.size(); i++) {
-				mObservers.get(i).elevatorDoorsOpened(this);
+			List<ElevatorObserver> reversedObservers = new ArrayList();
+			
+			for (int i = mObservers.size()-1; i >= 0; i--) {
+				reversedObservers.add(mObservers.get(i));
+			}
+			for (int i = mObservers.size()-1; i >= 0; i--) {
+				reversedObservers.get(i).elevatorDoorsOpened(this);
 			}
 			for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
 				reversedList.add(this.getCurrentFloor().getWaitingPassengers().get(i));
@@ -249,59 +254,7 @@ public class Elevator implements FloorObserver {
 				mObservers.get(i).elevatorDecelerating(this);
 			}
 			scheduleStateChange(ElevatorState.DOORS_OPENING, 3);
-
-           /* mRequestedFloors[mCurrentFloor.getNumber()-1] = false;
-        	int changeDirectionFlag = 3; // 3 means nothing was changed; 2 means dont change direction; 1 means change direction
-        	if (mCurrentDirection == Direction.MOVING_UP) {
-        		for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
-                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()
-                			&& !mCurrentFloor.mUpButton) { //if a passenger wants a floor lower and the up button is not pressed
-                		changeDirectionFlag = 1;
-                	}
-                	else if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()) {
-                		changeDirectionFlag = 2;
-                	}
-                	else {
-                	    changeDirectionFlag = 0;
-                    }
-                }
-        		if (changeDirectionFlag == 0) {
-            		mCurrentDirection = Direction.NOT_MOVING;
-            	}
-            	else if (changeDirectionFlag == 1) {
-            		mCurrentDirection = Direction.MOVING_UP;
-            	}
-        	}
-        	if (mCurrentDirection == Direction.MOVING_DOWN) {
-        		for (int i = 0; i < this.getCurrentFloor().getWaitingPassengers().size(); i++) {
-                	if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() > mCurrentFloor.getNumber()
-                			&& !mCurrentFloor.mDownButton) { //if a passenger wants a floor higher and the down button is not pressed
-                		changeDirectionFlag = 1;
-                	}
-                	else if (this.getCurrentFloor().getWaitingPassengers().get(i).getDestination() < mCurrentFloor.getNumber()) {
-                		changeDirectionFlag = 2;
-                	}
-                	else {
-                	    changeDirectionFlag = 0;
-                    }
-                }
-        		if (changeDirectionFlag == 0) {
-            		mCurrentDirection = Direction.NOT_MOVING;
-            	}
-            	else if (changeDirectionFlag == 1) {
-            		mCurrentDirection = Direction.MOVING_UP;
-            	}
-        	}
-        	for (int i = 0; i < mObservers.size(); i++) {
-                mObservers.get(i).elevatorDecelerating(this);
-            }
-        	scheduleStateChange(ElevatorState.DOORS_OPENING, 3);*/
 		}
-
-
-		// Example of how to trigger a state change:
-		// scheduleStateChange(ElevatorState.MOVING, 3); // switch to MOVING and call tick(), 3 seconds from now.
-
 	}
 
 
