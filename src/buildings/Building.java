@@ -110,16 +110,17 @@ public class Building implements ElevatorObserver, FloorObserver {
 		// TODO: if mWaitingFloors is not empty, remove the first entry from the queue and dispatch the elevator to that floor.
 		//[ATTEMPTED]
 		if (!mWaitingFloors.isEmpty()){
+			System.out.println(mWaitingFloors);
 			int floor = mWaitingFloors.remove();
-			elevator.dispatchTo(getFloor(floor-1));
+			elevator.dispatchTo(getFloor(floor));
 		}
 	}
 	
 	@Override
 	public void elevatorArriving(Floor sender, Elevator elevator) {
 		// TODO: add the floor mWaitingFloors if it is not already in the queue.
-		if (!mWaitingFloors.contains(sender.getNumber())){
-			mWaitingFloors.add(sender.getNumber());
+		if (!mWaitingFloors.contains(sender.getNumber()-1)){
+			mWaitingFloors.add(sender.getNumber()-1);
 		}
 	}
 	
@@ -136,7 +137,7 @@ public class Building implements ElevatorObserver, FloorObserver {
 			}
 		}
 		if (!elevatorSent){
-			mWaitingFloors.add(floor.getNumber()+1);
+			mWaitingFloors.add(floor.getNumber()-1);
 		}
 	}
 }
