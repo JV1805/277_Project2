@@ -35,17 +35,14 @@ public class Floor implements ElevatorObserver {
 	public void requestDirection(Elevator.Direction direction) {
 		// TODO: implement this method as described in the comment.
 		//[DONE]
-		if (direction.equals(Elevator.Direction.MOVING_UP) && !mUpButton){
+		if (direction.equals(Elevator.Direction.MOVING_UP)){
 			this.mUpButton = true;
-			for (FloorObserver fObserver: mObservers){
-				fObserver.directionRequested(this, direction);
-			}
 		}
-		else if (direction.equals(Elevator.Direction.MOVING_DOWN) && !mDownButton){
+		else if (direction.equals(Elevator.Direction.MOVING_DOWN)){
 			this.mDownButton = true;
-			for (FloorObserver fObserver: mObservers){
-				fObserver.directionRequested(this, direction);
-			}
+		}
+		for (FloorObserver fObserver: mObservers){
+			fObserver.directionRequested(this, direction);
 		}
 	}
 	
