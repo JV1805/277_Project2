@@ -83,7 +83,6 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			// leavingElevator method to allow a derived class to do something when the passenger departs.
 			// Set the current state to BUSY.
 			//[DONE]
-			System.out.println(getDestination());
 			elevator.removePassenger(this);
 			elevator.removeObserver(this);
 			leavingElevator(elevator);
