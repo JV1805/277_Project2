@@ -111,17 +111,15 @@ public class Elevator implements FloorObserver {
         else if (this.mCurrentState.equals(ElevatorState.DOORS_OPEN)){
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
-            List<Integer> doorOpenedFloors = new ArrayList<>();
+            List<Passenger> reversedList = new ArrayList<>();
             for (int i = 0; i < mObservers.size(); i++) {
             	mObservers.get(i).elevatorDoorsOpened(this);
             }
             for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
-//            	System.out.println(this.getCurrentFloor().getWaitingPassengers().get(i));
-//            	if (!doorOpenedFloors.contains(this.getCurrentFloor().getWaitingPassengers().get(i).getDestination())) {
-//                	doorOpenedFloors.add(this.getCurrentFloor().getWaitingPassengers().get(i).getDestination());
-//                	int index = this.getCurrentFloor().getWaitingPassengers().indexOf(this.getCurrentFloor().getWaitingPassengers().get(i));
-                	this.getCurrentFloor().getWaitingPassengers().get(i).elevatorDoorsOpened(this);
-//            	}
+            	reversedList.add(this.getCurrentFloor().getWaitingPassengers().get(i));
+            }
+            for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
+            	reversedList.get(i).elevatorDoorsOpened(this);
             }
             
 
