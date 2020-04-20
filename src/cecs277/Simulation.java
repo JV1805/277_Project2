@@ -42,7 +42,7 @@ public class Simulation {
 	}
 	
 	public void startSimulation(Scanner input) {
-		Building b = new Building(10, 1, this);
+		Building b = new Building(20, 3, this);
 		SpawnPassengerEvent ev = new SpawnPassengerEvent(0, b);
 		scheduleEvent(ev);
 		
