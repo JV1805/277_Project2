@@ -1,6 +1,7 @@
 package passengers;
 
 import elevators.Elevator;
+import elevators.Elevator.Direction;
 import cecs277.Simulation;
 import events.PassengerNextDestinationEvent;
 import java.util.List;
@@ -35,7 +36,15 @@ public class WorkerPassenger extends Passenger {
 	// [DONE]
 	@Override
 	protected boolean willBoardElevator(Elevator elevator) {
-		return (elevator.getPassengerCount() <= 3);
+		if (elevator.getCurrentDirection() == Direction.MOVING_DOWN && mDestinationList.get(0) < elevator.getCurrentFloor().getNumber()) {
+			return (elevator.getPassengerCount() <= 3);
+    	}
+    	else if (elevator.getCurrentDirection() == Direction.MOVING_UP && mDestinationList.get(0) > elevator.getCurrentFloor().getNumber()) {
+    		return (elevator.getPassengerCount() <= 3);
+    	}
+    	else {
+    		return false;
+    	}
 	}
 	
 	/*
