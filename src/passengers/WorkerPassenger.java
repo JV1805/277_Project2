@@ -27,7 +27,12 @@ public class WorkerPassenger extends Passenger {
 	//[DONE]
 	@Override
 	public int getDestination() {
-		return mDestinationList.get(0);
+		if (!mDestinationList.isEmpty()){
+			return mDestinationList.get(0);
+		}
+		else {
+			return 1;
+		}
 	}
 
 	public long getDuration() { return mDurationList.get(0); }
