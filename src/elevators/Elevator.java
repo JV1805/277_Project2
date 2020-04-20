@@ -112,7 +112,11 @@ public class Elevator implements FloorObserver {
             int initialElevatorCount = this.mPassengers.size();
             int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
             List<Passenger> reversedList = new ArrayList<>();
-            for (int i = 0; i < mObservers.size(); i++) {
+            List<ElevatorObserver> reversedObservers = new ArrayList<>();
+            for (int i = mObservers.size()-1; i >= 0; i--) {
+            	reversedObservers.add(mObservers.get(i));
+            }
+            for (int i = mObservers.size()-1; i >= 0; i--) {
             	mObservers.get(i).elevatorDoorsOpened(this);
             }
             for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
