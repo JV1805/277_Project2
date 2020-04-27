@@ -15,33 +15,33 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 		ON_ELEVATOR,
 		BUSY
 	}
-	
+
 	// A cute trick for assigning unique IDs to each object that is created. (See the constructor.)
 	private static int mNextId;
 	protected static int nextPassengerId() {
 		return ++mNextId;
 	}
-	
+
 	private int mIdentifier;
 	private PassengerState mCurrentState;
-	
+
 	public Passenger() {
 		mIdentifier = nextPassengerId();
 		mCurrentState = PassengerState.WAITING_ON_FLOOR;
 	}
-	
+
 	public void setState(PassengerState state) {
 		mCurrentState = state;
 	}
-	
+
 	/**
 	 * Gets the passenger's unique identifier.
 	 */
 	public int getId() {
 		return mIdentifier;
 	}
-	
-	
+
+
 	/**
 	 * Handles an elevator arriving at the passenger's current floor.
 	 */
@@ -50,7 +50,7 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 		// This is a sanity check. A Passenger should never be observing a Floor they are not waiting on.
 		if (floor.getWaitingPassengers().contains(this) && mCurrentState == PassengerState.WAITING_ON_FLOOR) {
 			Elevator.Direction elevatorDirection = elevator.getCurrentDirection();
-			
+
 			// TODO: check if the elevator is either NOT_MOVING, or is going in the direction that this passenger wants.
 			// If so, this passenger becomes an observer of the elevator.
 			//[DONE]
@@ -67,10 +67,10 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 		// This else should not happen if your code is correct. Do not remove this branch; it reveals errors in your code.
 		else {
 			throw new RuntimeException("Passenger " + toString() + " is observing Floor " + floor.getNumber() + " but they are " +
-			 "not waiting on that floor.");
+					"not waiting on that floor.");
 		}
 	}
-	
+
 	/**
 	 * Handles an observed elevator opening its doors. Depart the elevator if we are on it; otherwise, enter the elevator.
 	 */
@@ -87,7 +87,7 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			elevator.removeObserver(this);
 			leavingElevator(elevator);
 			mCurrentState = PassengerState.BUSY;
-			
+
 		}
 		// The elevator has arrived on the floor we are waiting on. If the elevator has room for us, remove ourselves
 		// from the floor, and enter the elevator.
@@ -108,45 +108,45 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the passenger's current destination (what floor they are travelling to).
 	 */
 	public abstract int getDestination();
-	
+
 	/**
 	 * Called to determine whether the passenger will board the given elevator that is moving in the direction the
 	 * passenger wants to travel.
 	 */
 	protected abstract boolean willBoardElevator(Elevator elevator);
-	
+
 	/**
 	 * Called when the passenger is departing the given elevator.
 	 */
 	protected abstract void leavingElevator(Elevator elevator);
-	
+
 	// This will be overridden by derived types.
 	@Override
 	public String toString() {
 		return Integer.toString(getDestination());
 	}
-	
+
 	@Override
 	public void directionRequested(Floor sender, Elevator.Direction direction) {
 		// Don't care.
 	}
-	
+
 	@Override
 	public void elevatorWentIdle(Elevator elevator) {
 		// Don't care about this.
 	}
-	
+
 	// The next two methods allow Passengers to be used in data structures, using their id for equality. Don't change 'em.
 	@Override
 	public int hashCode() {
 		return Integer.hashCode(mIdentifier);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -154,5 +154,5 @@ public abstract class Passenger implements FloorObserver, ElevatorObserver {
 		Passenger passenger = (Passenger)o;
 		return mIdentifier == passenger.mIdentifier;
 	}
-	
+
 }

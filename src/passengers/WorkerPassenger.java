@@ -15,7 +15,7 @@ public class WorkerPassenger extends Passenger {
 	// [DONE]
 	private List<Integer> mDestinationList = new ArrayList<>();
 	private List<Long> mDurationList = new ArrayList<>();
-	
+
 	public WorkerPassenger(List<Integer> destinations, List<Long> durations) {
 		super();
 		mDestinationList = destinations;
@@ -42,7 +42,7 @@ public class WorkerPassenger extends Passenger {
 	protected boolean willBoardElevator(Elevator elevator) {
 		return (elevator.getPassengerCount() <= 3);
 	}
-	
+
 	/*
 	 TODO: implement this template method variant, which is called when the worker is leaving the elevator it
 	 is on. A Worker that is departing on floor 1 just leaves the building, printing a message to System.out.
@@ -60,21 +60,21 @@ public class WorkerPassenger extends Passenger {
 			mDestinationList.remove(0);
 			Simulation s = elevator.getBuilding().getSimulation();
 			PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + mDurationList.get(0), this,
-			 elevator.getCurrentFloor());
+					elevator.getCurrentFloor());
 			s.scheduleEvent(ev);
 		}
 	}
-	
+
 	@Override
 	public void elevatorDecelerating(Elevator elevator) {
 		// Don't care.
 	}
-	
+
 	// TODO: return "Worker heading to floor {destination}", replacing {destination} with the first destination floor number.
 	// [DONE]
 	@Override
 	public String toString() {
 		return "Worker heading to floor " + mDestinationList.get(0);
 	}
-	
+
 }

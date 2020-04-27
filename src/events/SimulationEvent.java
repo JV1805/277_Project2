@@ -9,14 +9,14 @@ import cecs277.Simulation;
 public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 	// The time at which this event is scheduled to be executed.
 	private long mScheduledTime;
-	
+
 	/**
 	 * Sets the scheduled time of the event.
 	 */
 	public SimulationEvent(long scheduledTime) {
 		mScheduledTime = scheduledTime;
 	}
-	
+
 	/**
 	 * Gets the time at which this event should be executed. The start of the simulation is at time 0. Each unit of time
 	 * is equal to 1 second.
@@ -24,13 +24,13 @@ public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 	public long getScheduledTime() {
 		return mScheduledTime;
 	}
-	
+
 	/**
 	 *
 	 * @param sim
 	 */
 	public abstract void execute(Simulation sim);
-	
+
 	/**
 	 * Used for sorting a priority queue, with the smallest scheduled time coming out first.
 	 */
@@ -38,7 +38,7 @@ public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 	public int compareTo(SimulationEvent o) {
 		return Long.compare(mScheduledTime, o.mScheduledTime);
 	}
-	
+
 	@Override
 	public String toString() {
 		return mScheduledTime + "s: ";

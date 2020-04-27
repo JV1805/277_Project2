@@ -9,7 +9,7 @@ public interface FloorObserver {
 	 * @param elevator the Elevator that is decelerating.
 	 */
 	void elevatorArriving(Floor sender, Elevator elevator);
-	
+
 	/**
 	 * Triggered when a direction button has been pressed on the given floor.
 	 */

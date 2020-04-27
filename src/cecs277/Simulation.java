@@ -12,47 +12,47 @@ public class Simulation {
 	private Random mRandom;
 	private PriorityQueue<SimulationEvent> mEvents = new PriorityQueue<>();
 	private long mCurrentTime;
-	
+
 	/**
 	 * Seeds the Simulation with a given random number generator.
 	 */
 	public Simulation(Random random) {
 		mRandom = random;
 	}
-	
+
 	/**
 	 * Gets the current time of the simulation.
 	 */
 	public long currentTime() {
 		return mCurrentTime;
 	}
-	
+
 	/**
 	 * Access the Random object for the simulation.
 	 */
 	public Random getRandom() {
 		return mRandom;
 	}
-	
+
 	/**
 	 * Adds the given event to a priority queue sorted on the scheduled time of execution.
 	 */
 	public void scheduleEvent(SimulationEvent ev) {
 		mEvents.add(ev);
 	}
-	
+
 	public void startSimulation(Scanner input) {
-		Building b = new Building(20, 3, this);
+		Building b = new Building(10, 1, this);
 		SpawnPassengerEvent ev = new SpawnPassengerEvent(0, b);
 		scheduleEvent(ev);
-		
+
 		long nextSimLength = -1;
-		
+
 		// Set this boolean to true to make the simulation run at "real time".
 		boolean simulateRealTime = false;
 		// Change the scale below to less than 1 to speed up the "real time".
 		double realTimeScale = 1.0;
-		
+
 		// TODO: the simulation currently stops at 200s. Instead, ask the user how long they want to simulate.
 		//[DONE]
 		//nextSimLength = 200;
@@ -101,7 +101,7 @@ public class Simulation {
 		*/
 		//[ATTEMPTED] MIGHT BE WRONG
 	}
-	
+
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		// TODO: ask the user for a seed value and change the line below.

@@ -77,7 +77,7 @@ public class SpawnPassengerEvent extends SimulationEvent {
 		//add 2 so range is [2, floorcount]
 		int visitorDestination = r.nextInt(floorCount - 1) + 2;
 
-			double visitorDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
+		double visitorDuration = (r.nextGaussian() * SPAWN_STDEV_DURATION) + SPAWN_MEAN_DURATION;
 
 		VisitorPassenger visitor = new VisitorPassenger(visitorDestination, (int) Math.round(visitorDuration));
 

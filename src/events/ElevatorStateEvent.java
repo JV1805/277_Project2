@@ -9,7 +9,7 @@ import elevators.Elevator;
 public class ElevatorStateEvent extends SimulationEvent {
 	private Elevator.ElevatorState mNewState;
 	private Elevator mElevator;
-	
+
 	public ElevatorStateEvent(long scheduledTime, Elevator.ElevatorState newState, Elevator elevator) {
 		super(scheduledTime);
 		mNewState = newState;
@@ -20,7 +20,7 @@ public class ElevatorStateEvent extends SimulationEvent {
 		mElevator.setState(mNewState);
 		mElevator.tick();
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + mElevator;

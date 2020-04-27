@@ -113,19 +113,20 @@ public class Elevator implements FloorObserver {
 			int initialFloorCount = this.mCurrentFloor.getWaitingPassengers().size();
 			List<Passenger> reversedList = new ArrayList<>();
 			List<ElevatorObserver> reversedObservers = new ArrayList();
-			
+
 			for (int i = mObservers.size()-1; i >= 0; i--) {
 				reversedObservers.add(mObservers.get(i));
 			}
 			for (int i = mObservers.size()-1; i >= 0; i--) {
 				reversedObservers.get(i).elevatorDoorsOpened(this);
 			}
-			for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
+
+			/*for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
 				reversedList.add(this.getCurrentFloor().getWaitingPassengers().get(i));
 			}
 			for (int i = this.getCurrentFloor().getWaitingPassengers().size()-1; i >= 0; i--) {
 				reversedList.get(i).elevatorDoorsOpened(this);
-			}
+			}*/
 
 
 			int endElevatorCount = this.mPassengers.size();
@@ -191,6 +192,13 @@ public class Elevator implements FloorObserver {
 		}
 
 		else if (this.mCurrentState.equals(ElevatorState.MOVING)){
+			/*
+			int counter = 0;
+			for (boolean b : mRequestedFloors) {
+				counter++;
+				System.out.println("FLOOR " + counter +": " + b);
+			}
+			*/
 			if (mCurrentDirection == Direction.MOVING_UP) { //MAY CAUSE LOGIC ERROR LATER
 				mCurrentFloor = mBuilding.getFloor(mCurrentFloor.getNumber()+1); //+1 because going up
 				if(mRequestedFloors[mCurrentFloor.getNumber()-1]) { //-1 bc getting index of "next", now current, floor
@@ -265,6 +273,10 @@ public class Elevator implements FloorObserver {
 		// TODO: if we are currently idle and not on the given floor, change our direction to move towards the floor.
 		// TODO: set a floor request for the given floor, and schedule a state change to ACCELERATING immediately.
 		//[ATTEMPTED]
+
+		//System.out.println("ENTERED FLOOR: " + floor.getNumber());
+		//System.out.println("CURRENT FLOOR: " + mCurrentFloor.getNumber());
+
 		if (isIdle() && (mCurrentFloor.getNumber() != floor.getNumber())) {
 			if (mCurrentFloor.getNumber() < floor.getNumber()) {
 				setCurrentDirection(Direction.MOVING_UP);

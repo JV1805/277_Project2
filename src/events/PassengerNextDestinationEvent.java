@@ -11,23 +11,23 @@ import passengers.Passenger;
 public class PassengerNextDestinationEvent extends SimulationEvent {
 	private Passenger mPassenger;
 	private Floor mStartingFloor;
-	
+
 	public PassengerNextDestinationEvent(long scheduledTime, Passenger passenger, Floor startingFloor) {
 		super(scheduledTime);
 		mPassenger = passenger;
 		mStartingFloor = startingFloor;
 	}
-	
-	
+
+
 	@Override
 	public void execute(Simulation sim) {
 		mPassenger.setState(Passenger.PassengerState.WAITING_ON_FLOOR);
 		mStartingFloor.addWaitingPassenger(mPassenger);
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + "Passenger " + mPassenger.getId() + " joining floor " + mStartingFloor.getNumber() +
-		 ", heading to floor " + mPassenger.getDestination();
+				", heading to floor " + mPassenger.getDestination();
 	}
 }

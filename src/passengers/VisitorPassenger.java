@@ -12,7 +12,7 @@ import events.PassengerNextDestinationEvent;
  */
 public class VisitorPassenger extends Passenger {
 	// TODO: add fields, constructors, and accessors to implement this class.
-    // [DONE]
+	// [DONE]
 
 	private int mDestination;
 	private int mDuration;
@@ -22,21 +22,21 @@ public class VisitorPassenger extends Passenger {
 		this.mDestination = destinationFloor;
 		this.mDuration = durationTime;
 	}
-	
+
 	@Override
 	public int getDestination() {
 		return this.mDestination;
 	}
 
 	public int getDuration() { return this.mDuration; }
-	
+
 	// TODO: implement this template method variant. A Visitor will join an elevator whose passenger count is less than its capacity.
-    // [DONE]
-    @Override
+	// [DONE]
+	@Override
 	protected boolean willBoardElevator(Elevator elevator) {
 		return (elevator.getPassengerCount() < elevator.getCapacity());
 	}
-	
+
 	/*
 	 TODO: implement this template method variant, which is called when the passenger is leaving the elevator it
 	 is on. A Visitor that is departing on floor 1 just leaves the building, printing a message to System.out.
@@ -62,18 +62,17 @@ public class VisitorPassenger extends Passenger {
 		PassengerNextDestinationEvent ev = new PassengerNextDestinationEvent(s.currentTime() + 10, this,
 		 elevator.getCurrentFloor());
 		s.scheduleEvent(ev);
-
 		Schedules this passenger to reappear on this floor 10 seconds from now.
 		 */
 		}
 	}
-	
+
 	// TODO: return "Visitor heading to floor {destination}", replacing {destination} with the floor number.
 	@Override
 	public String toString() {
 		return "visitor with destination " + this.mDestination;
 	}
-	
+
 	@Override
 	public void elevatorDecelerating(Elevator elevator) {
 		// Don't care.
